@@ -9,6 +9,12 @@ async function query(queryObject) {
     password: process.env.POSTGRES_PASSWORD,
   });
 
+  if (process.env.POSTGRES_USE_SSL == "true") {
+    client.ssl = {
+      rejectUnauthorized: false,
+    };
+  }
+
   try {
     await client.connect();
     const result = await client.query(queryObject);
